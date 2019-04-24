@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const config = require('config-lite')(__dirname)
-console.log(config)
 mongoose.connect(config.url, {
   useNewUrlParser: true,
   useCreateIndex: true

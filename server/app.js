@@ -13,7 +13,6 @@ app.all('*', async (req, res, next) => {
   const start = new Date()
   let ms
   if (!['localhost:9001', 'girl.xutianshi.top', 'localhost:9529'].includes(req.headers.host)) {
-    console.log(111)
     res.send(`${req.headers.host}在${new Date()}访问，已被拦截,总有刁民想害朕，锦衣卫护驾`)
   } else { // 跨域处理
     const {origin, Origin, referer, Referer} = req.headers

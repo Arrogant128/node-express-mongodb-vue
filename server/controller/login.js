@@ -54,10 +54,22 @@ class Login extends Base {
         }
       })
     } else {
-      res.send({
-        status: 400,
-        message: '账号已存在，请重新创建'
-      })
+      console.log(password)
+      console.log(this.encryption(password))
+      console.log(admin.password)
+      if (this.encryption(password) === admin.password) {
+        res.send({
+          status: 200,
+          message: '欢迎大佬登录',
+          token: config.token,
+          data: admin
+        })
+      } else {
+        res.send({
+          status: 400,
+          message: '账号已存在，请重新创建'
+        })
+      }
     }
   }
 
