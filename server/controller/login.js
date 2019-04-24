@@ -11,7 +11,6 @@ class Login extends Base {
 
   async login(req, res) {
     const {password, username, status = 1} = req.body
-    console.log('req', req.body)
     try {
       if (!password) {
         throw new Error('密码不存在')
@@ -19,7 +18,6 @@ class Login extends Base {
         throw new Error('请输入密码')
       }
     } catch (error) {
-      console.log(error)
       res.send({
         status: 400,
         message: error.message
@@ -38,7 +36,6 @@ class Login extends Base {
         createTime: new Date()
       })
       newAdmin.save()
-      console.log(newAdmin)
       req.session.admin_id = newAdmin.id
       req.session.role = role
       res.send({
@@ -54,10 +51,8 @@ class Login extends Base {
         }
       })
     } else {
-      console.log(password)
-      console.log(this.encryption(password))
-      console.log(admin.password)
       if (this.encryption(password) === admin.password) {
+        req.session.admin_id = admin.id
         res.send({
           status: 200,
           message: '欢迎大佬登录',
@@ -85,7 +80,6 @@ class Login extends Base {
       return
     }
     try {
-      console.log(admin_id)
       const info = await User.findOne({ id: admin_id }, '-_id -__v -password')
       if (!info) {
         throw new Error('未找到当前管理员')
@@ -106,6 +100,13 @@ class Login extends Base {
         message: '获取管理员信息失败'
       })
     }
+  }
+  logout (req, res, next) {
+    delete req.session
+    res.send({
+      status:200,
+      message: '退出登录成功！'
+    })
   }
 }
 

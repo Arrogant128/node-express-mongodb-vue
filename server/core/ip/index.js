@@ -9,7 +9,7 @@ let G = global
 
 /**
  * 爬取西刺代理的IP v1.0版本
- * @param {Object} config 
+ * @param {Object} config
  */
 export function spiIp(config) {
   return new Promise((resolve, reject) => {
@@ -39,7 +39,7 @@ export function spiIp(config) {
 export async function getIpPool() {
   return new Promise(async (resolve, reject) => {
     try {
-      await getText()
+      // await getText()
       const json = require(path.resolve(__dirname, `../../db/ipPool.json`))
       const data = json.data
       let numArr = []
@@ -50,8 +50,10 @@ export async function getIpPool() {
       async.mapLimit(numArr, 50, function (num, cb) {
         const tempData = data[num]
         const ip = tempData['type'] + '://' + tempData['host'] + ':' + tempData['port'] + '/'
+        console.log('ip=>', ip)
         // 入库筛选 检测当前IP有效性
         check(ip).then(async (rs) => {
+          console.log('11', rs)
           if (rs.code === 1) {
             await new ippoolSchema({ ...tempData, createTime: new Date() }).save((err, data) => {
               if (err) {
@@ -83,6 +85,7 @@ export async function getIpPool() {
 export function check(ip) {
   return new Promise((resolve, reject) => {
     //尝试请求百度的静态资源公共库中的jquery文件
+    console.log('检测ip')
     const url = "http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"
     try {
       request({
@@ -98,7 +101,7 @@ export function check(ip) {
           })
         }
         if (!error) {
-          if (response.statusCode == 200) {
+          if (response.statusCode === 200) {
             resolve({
               code: 1
             })

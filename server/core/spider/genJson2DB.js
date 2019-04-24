@@ -2,10 +2,10 @@ import { stc } from '../config'
 import GirlModel from '../../model/allgirls'
 const path = require('path')
 const fs = require('fs')
-let G = global
+// let G = global
 /**
  * 将全部文件存入数据库
- * @param {*} config 
+ * @param {*} config
  */
 export function genAll2DB(config = {}) {
   let N = 0
@@ -34,8 +34,8 @@ export function genAll2DB(config = {}) {
 
 /**
  * 将单个JSON文件存入数据库
- * @param {*} area 
- * @param {*} I 
+ * @param {*} area
+ * @param {*} I
  */
 export function pushOne(area, I = 1, endPage) {
   return new Promise(async (resolve, reject) => {
@@ -45,10 +45,10 @@ export function pushOne(area, I = 1, endPage) {
         await new GirlModel({ ...v, area, createTime: new Date() }).save(function (err, data) {
           if (err) {
             console.log(err)
-            G.ListStatuspageErr = { 'text': `传送时间:${new Date()}--数据库写入${area}/${I}.json的第${i}条数据-时候发生错误：${err}` }
+            // G.ListStatuspageErr = { 'text': `传送时间:${new Date()}--数据库写入${area}/${I}.json的第${i}条数据-时候发生错误：${err}` }
           } else {
             // 进度事件
-            G.ListStatusRate = { 'text': `传送时间:${new Date()}--地区 ${area} 第 ${I} 页 第 ${i} 条 写入数据库完成`, 'percent': (I / endPage) * 100 }
+            // G.ListStatusRate = { 'text': `传送时间:${new Date()}--地区 ${area} 第 ${I} 页 第 ${i} 条 写入数据库完成`, 'percent': (I / endPage) * 100 }
             console.log(`地区 ${area} 第 ${I} 页 第 ${i} 条 写入数据库完成`)
           }
         })
@@ -59,7 +59,7 @@ export function pushOne(area, I = 1, endPage) {
     } catch (error) {
       console.log(`数据库写入${area}/${I}.json-时候发生错误：${error}`)
       // 错误事件
-      G.ListStatuspageErr = { 'text': `传送时间:${new Date()}--数据库写入${area}/${I}.json-时候发生错误：${error}` }
+      // G.ListStatuspageErr = { 'text': `传送时间:${new Date()}--数据库写入${area}/${I}.json-时候发生错误：${error}` }
       fs.renameSync(path.resolve(__dirname, `../../db/json/${area}/${I}.json`), path.resolve(__dirname, `../../db/json/${area}/problem_${I}.json`))
     }
   })

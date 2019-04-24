@@ -13,6 +13,7 @@ export default function (config = {}) {
   return new Promise(async (reolve, reject) => {
     //way-1 任务开始 直接拿一波已有IP进行随机  每次请求都随机一个代理IP
     const ipList = await getipList()
+    console.log('ipList', ipList)
     let N = 0
     for (var key in stc) {
       // 根据area  进行任务分发 匹配stc

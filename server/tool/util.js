@@ -1,7 +1,6 @@
 import request from 'request'
 export function getRegion(ip) {
   return new Promise((resolve, reject) => {
-    console.log('111', ip)
     request({
       // url: `http://apis.juhe.cn/ip/ipNew?ip=${ip}&key=d8f5585d01ff69ea22e468d8ccbafbed`,
       url: `https://apis.map.qq.com/ws/location/v1/ip?ip=${ip}&key=FXSBZ-K2OHQ-PUQ57-GOWXM-ZM62Q-27FHP`,
@@ -29,7 +28,6 @@ export function getRegion(ip) {
  * @param {request} req
  */
 export function getClientIp(req) {
-  console.log('4444', req.ip)
   return (req.ip || req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||

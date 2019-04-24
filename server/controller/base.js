@@ -5,6 +5,7 @@ export default class Base {
   constructor() {
     this.idList = ['admin_id', 'girl_id', 'img_id']
     this.encryption = this.encryption.bind(this)
+    this.difference = this.difference.bind(this)
   }
 
   encryption(value) {
@@ -26,6 +27,15 @@ export default class Base {
       console.log('获取ID数据失败')
       throw new Error(err)
     }
+  }
+  /**
+   * 取数组不同值
+   * @param {*} l 长数组
+   * @param {*} s 短数组
+   */
+  difference(l, s) {
+    const S = new Set(s)
+    return l.filter(v => !S.has(v))
   }
 }
 

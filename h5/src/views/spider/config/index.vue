@@ -2,7 +2,7 @@
   <div class="config-container">
     <el-row style="margin-bottom: 20px;">
       <el-button type="danger" @click="detailConfigDialog=true">详细页配置</el-button>
-      <!-- <el-button type="danger" @click="spiDetail">爬取详细页数据</el-button> -->
+       <el-button type="danger" @click="spiDetail">爬取详细页数据</el-button>
       <el-button type="danger" @click="genRealUid">生成Uid表</el-button>
       <el-button type="danger" @click="listConfigDialog=true">列表页配置</el-button>
       <el-button type="danger" @click="distinct">去重列表页数据</el-button>
@@ -165,38 +165,34 @@ export default {
       })
     },
     spiDetail() {
-      this.$refs['detailConfig'].validate((valid) => {
-        if (valid) {
-          getSipderConfig().then(rs => {
-            if (rs.data.detailStatus === 1) {
-              this.$message({
-                type: 'error',
-                message: '当前脚本有任务在跑哦，请耐心等待完成~'
-              })
-              return
-            }
-            this.$confirm('此任务开始后不可停止, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              spiDetailByRealUid({ ...this.detailConfig }).then(rs => {
-                setTimeout(() => {
-                  this.$message({
-                    type: 'success',
-                    message: rs.data
-                  })
-                }, 2000)
-              })
-              this.detailConfigDialog = false
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '任务已取消'
-              })
-            })
+      getSipderConfig().then(rs => {
+        if (rs.data.detailStatus === 1) {
+          this.$message({
+            type: 'error',
+            message: '当前脚本有任务在跑哦，请耐心等待完成~'
           })
+          return
         }
+        this.$confirm('此任务开始后不可停止, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          spiDetailByRealUid({ ...this.detailConfig }).then(rs => {
+            setTimeout(() => {
+              this.$message({
+                type: 'success',
+                message: rs.data
+              })
+            }, 2000)
+          })
+          this.detailConfigDialog = false
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '任务已取消'
+          })
+        })
       })
     },
     genRealUid() {
