@@ -45,11 +45,14 @@ class Spider extends Base{
      */
     async spiDetailByRealUid(req, res, next) {
         const {cookie} = req.body
+        console.log('cookie123', cookie)
         try {
             let Cur = new Date().getTime()
             //V1.1.0使用总表
             let realUidArr = await AllGirlModel.distinct('realUid') // 映射
+            console.log('realUidArr', realUidArr)
             let finUidArr = await detailModel.distinct('realUid')
+            console.log('finUidArr', finUidArr)
             let realUids = null
 
             if (finUidArr.length > 0) {

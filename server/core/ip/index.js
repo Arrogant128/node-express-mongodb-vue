@@ -57,19 +57,19 @@ export async function getIpPool() {
           if (rs.code === 1) {
             await new ippoolSchema({ ...tempData, createTime: new Date() }).save((err, data) => {
               if (err) {
-                G.IpStatusIpErr = { 'text': `入库的时候发生错误:${err}` }
+                // G.IpStatusIpErr = { 'text': `入库的时候发生错误:${err}` }
               } else {
-                G.IpStatusRate = { 'text': `第${num}条IP-${ip}成功入库`, 'percent': (num / len) * 100 }
+                // G.IpStatusRate = { 'text': `第${num}条IP-${ip}成功入库`, 'percent': (num / len) * 100 }
               }
             })
           } else if (rs.code === 2) {
             // IP 无效
-            G.IpStatusIpErr = { 'text': `无效IP${rs.ip}，已过滤` }
+            // G.IpStatusIpErr = { 'text': `无效IP${rs.ip}，已过滤` }
           }
           cb(null, '-')
         }).catch(err => {
           cb(null, '|')
-          G.IpStatusIpErr = { 'text': `requrest错误${err.error}，已过滤` }
+          // G.IpStatusIpErr = { 'text': `requrest错误${err.error}，已过滤` }
         })
       }, function (err, rs) {
         console.log(rs, '所有任务完成')

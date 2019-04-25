@@ -16,6 +16,7 @@ export default function (config = {}) {
     console.log('ipList', ipList)
     let N = 0
     for (var key in stc) {
+      console.log('key', key)
       // 根据area  进行任务分发 匹配stc
       if (config.area.includes(key)) {
         // 判断当前地区文件夹是否创建
@@ -39,9 +40,16 @@ export default function (config = {}) {
           config.education = ''
           config.marriage = ''
         }
-
         if (!fs.existsSync(path.resolve(__dirname, `../../db/json/${key}`))) {
-          fs.mkdirSync(path.resolve(__dirname, `../../db/json/${key}`))
+          if (!fs.existsSync(path.resolve(__dirname, '../../db/json'))) {
+            fs.mkdirSync(path.resolve(__dirname, `../../db/json`))
+          } else {
+            fs.mkdirSync(path.resolve(__dirname, `../../db/json/${key}`))
+            console.log('创建对应的文件夹完成')
+          }
+        }
+        if (!fs.existsSync(path.resolve(__dirname, `../../db/json/${key}`))) {
+          return
         }
         (function (stc, key, NN) {
           setTimeout(() => {
@@ -91,16 +99,21 @@ export default function (config = {}) {
         }
       }, async function (err, res, body) {
         try {
-          fs.writeFileSync(path.resolve(__dirname, `../../db/json/${key}/${n}.json`), unescape(body.replace(/\\u/g, '%u').replace(/##jiayser##\/\/$/g, '').replace(/\\/g, '').replace(/^##jiayser##/, '').replace(/゛/g, '').replace(//g, '').replace(//g, '').replace(/color="red"/g, '').replace(//g, '')))
+          let bodyStr = unescape(body.replace(/\\u/g, '%u').replace(/##jiayser##\/\/$/g, '').replace(/\\/g, '').replace(/^##jiayser##/, '').replace(/゛/g, '').replace(//g, '').replace(//g, '').replace(/color="red"/g, '').replace(//g, ''))
+          console.log('bodyStr', bodyStr)
+          fs.writeFileSync(path.resolve(__dirname, `../../db/json/${key}/${n}.json`), bodyStr)
           console.log(`地区-${key}-页码-${n}已经转成JSON文件`)
           // 进度事件
-          G.ListStatusRate = { 'text': `地区-${key}-页码-${n}已经转成JSON文件`, 'percent': (n / config.endPage) * 100 }
+          // G.ListStatusRate = { 'text': `地区-${key}-页码-${n}已经转成JSON文件`, 'percent': (n / config.endPage) * 100 }
 
           // 写入数据库
+          console.log('key', key)
+          console.log('n', n)
+          console.log('config.endPage', config.endPage)
           await pushOne(key, n, config.endPage)
         } catch (error) {
           // 错误事件
-          G.ListStatuspageErr = { 'text': `爬取列表页的时候发生错误:${error}` }
+          // G.ListStatuspageErr = { 'text': `爬取列表页的时候发生错误:${error}` }
           console.log(`爬取列表页的时候发生错误:${error}`)
         }
       })

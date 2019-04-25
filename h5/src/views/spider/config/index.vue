@@ -2,7 +2,7 @@
   <div class="config-container">
     <el-row style="margin-bottom: 20px;">
       <el-button type="danger" @click="detailConfigDialog=true">详细页配置</el-button>
-       <el-button type="danger" @click="spiDetail">爬取详细页数据</el-button>
+       <!--<el-button type="danger" @click="spiDetail">爬取详细页数据</el-button>-->
       <el-button type="danger" @click="genRealUid">生成Uid表</el-button>
       <el-button type="danger" @click="listConfigDialog=true">列表页配置</el-button>
       <el-button type="danger" @click="distinct">去重列表页数据</el-button>

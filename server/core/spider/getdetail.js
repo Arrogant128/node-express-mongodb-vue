@@ -11,8 +11,6 @@ import { userAgents } from '../config'
  * @param {*} cookie 用于爬取隐私,必须
  */
 export default function (realUid, cookie, ip) {
-  console.log(ip)
-
   if (!cookie) {
     cookie = spiderModel.find('cookie').exec()
   }
